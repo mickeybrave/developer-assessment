@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TodoList.Api.BL;
+using TodoList.Api.DAL;
 
 namespace TodoList.Api
 {
@@ -36,8 +38,11 @@ namespace TodoList.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoList.Api", Version = "v1" });
             });
+            services.AddScoped(typeof(IToDoDataRepository), typeof(ToDoDataRepository));
+            services.AddScoped(typeof(IToDoService), typeof(ToDoService));
 
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoItemsDB"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
